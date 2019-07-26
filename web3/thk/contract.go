@@ -151,3 +151,14 @@ func (contract *Contract) Parse(callRes *dto.TxResult, name string, args interfa
 		return nil
 	}
 }
+func (contract *Contract) GetInput(functionName string, args ...interface{}) (string, error) {
+	fixedArrStrPack, err := contract.abi.Pack(functionName, args...)
+	if err != nil {
+		return "", err
+	}
+	return hexutil.Encode(fixedArrStrPack),err
+
+}
+func (contract *Contract) SendTransaction(transaction util.Transaction) (string, error) {
+	return contract.super.SendTx(&transaction)
+}
