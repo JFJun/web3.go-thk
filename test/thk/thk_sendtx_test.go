@@ -178,7 +178,7 @@ func (a *Address) SetBytes(b []byte) {
 
 func TestThkCashCheck(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.13:8089", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000020000"
 
@@ -224,7 +224,7 @@ func TestThkCashCheck(t *testing.T) {
 }
 func TestThkSaveCashCheck(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.13:8089", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000030000"
 
@@ -313,7 +313,7 @@ func TestThkSendTx(t *testing.T) {
 // Amount: value.(string),
 func TestThkRpcMakeVccProof(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.13:8089", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000020000"
 
@@ -338,7 +338,7 @@ func TestThkRpcMakeVccProof(t *testing.T) {
 	t.Log("input:", input)
 }
 func TestCompileContract(t *testing.T) {
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.13:8089", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 
 	contract := "pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}"
 	test, err := connection.Thk.CompileContract("2", contract)
@@ -351,7 +351,7 @@ func TestCompileContract(t *testing.T) {
 }
 func TestThkMakeCCCExistenceProof(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.106:8093", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000020000"
 
@@ -374,7 +374,7 @@ func TestThkMakeCCCExistenceProof(t *testing.T) {
 
 func TestThkCallTx(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.13:8089", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x6ea0fefc17c877c7a4b0f139728ed39dc134a967"
 	if err != nil {
@@ -395,7 +395,7 @@ func TestThkCallTx(t *testing.T) {
 
 func TestThkGetTransactionByHash(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.13:8093", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 	hash := "0xcb53f1ec9c02053a46de488b63b219217826fd9c4cfb531567d61003664ef653"
 	res, err := connection.Thk.GetTransactionByHash("2", hash)
 	if err != nil {

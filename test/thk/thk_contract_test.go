@@ -13,7 +13,7 @@ import (
 )
 
 func TestThkContract(t *testing.T) {
-	content, err := ioutil.ReadFile("../resources/dahan.json")
+	content, err := ioutil.ReadFile("../resources/order.json")
 	type TruffleContract struct {
 		Abi      string `json:"abi"`
 		Bytecode string `json:"bytecode"`
