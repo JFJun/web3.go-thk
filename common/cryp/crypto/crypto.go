@@ -133,7 +133,12 @@ func FromECDSA(priv *ecdsa.PrivateKey) []byte {
 // UnmarshalPubkey converts bytes to a secp256k1 public key.
 func UnmarshalPubkey(pub []byte) (*ecdsa.PublicKey, error) {
 	x, y := elliptic.Unmarshal(S256(), pub)
-	if x == nil {
+	if x == nil { //// 由于序列化时采用了16位计数，所以最大支持的证明高度不能超过65535
+		//type MerkleProofs struct {
+		//	Hashs []Hash   `json:"hashs"` // 下标从0开始的 按顺序与ToBeProof迭代计算Hash的Hash列表
+		//	Paths *big.Int `json:"paths"` // 位操作数，Hashs的下标对应的Bit位表示对应Hash值在进行Hash运算时放在前面(1)还是后面(0)，顺序正好是被证明对象的
+		//}
+
 		return nil, errInvalidPubkey
 	}
 	return &ecdsa.PublicKey{Curve: S256(), X: x, Y: y}, nil
