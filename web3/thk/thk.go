@@ -3,6 +3,7 @@ package thk
 import (
 	"crypto/ecdsa"
 	"errors"
+	"fmt"
 	"math/big"
 	"strings"
 	"web3.go/common/cryp/crypto"
@@ -23,6 +24,7 @@ func NewThk(provider providers.ProviderInterface) *Thk {
 	return thk
 }
 
+//获取余额11
 func (thk *Thk) GetBalance(address string, chainId string) (*big.Int, error) {
 	params := new(util.GetAccountJson)
 	if err := params.FormatParams(address, chainId); err != nil {
@@ -41,6 +43,7 @@ func (thk *Thk) GetBalance(address string, chainId string) (*big.Int, error) {
 	return ret, nil
 }
 
+//获取之前交易数
 func (thk *Thk) GetNonce(address string, chainId string) (int64, error) {
 	params := new(util.GetAccountJson)
 	if err := params.FormatParams(address, chainId); err != nil {
@@ -59,6 +62,7 @@ func (thk *Thk) GetNonce(address string, chainId string) (int64, error) {
 	return ret, nil
 }
 
+//	获取块交易11
 func (thk *Thk) GetBlockTxs(chainId string, height string, page string, size string) {
 	params := new(util.GetBlockTxsJson)
 	if err := params.FormatParams(chainId, height, page, size); err != nil {
@@ -66,6 +70,7 @@ func (thk *Thk) GetBlockTxs(chainId string, height string, page string, size str
 	}
 }
 
+//11
 func (thk *Thk) SendTx(transaction *util.Transaction) (string, error) {
 	// params := new(util.Transaction)
 	// if err := params.FormatParams(transaction); err != nil {
@@ -82,17 +87,28 @@ func (thk *Thk) SendTx(transaction *util.Transaction) (string, error) {
 	return res.TXhash, nil
 }
 
+//交易签名
 func (thk *Thk) SignTransaction(transaction *util.Transaction, privatekey *ecdsa.PrivateKey) error {
-	var toaddr string
+	var toAddr string
+	var fromAddr string
 	if len(transaction.To) > 2 {
-		toaddr = transaction.To[2:]
+		toAddr = transaction.To[2:]
+
+		toAddr = strings.ToLower(toAddr)
 	}
+
+	if len(transaction.From) > 2 {
+		fromAddr = transaction.From[2:]
+
+		fromAddr = strings.ToLower(fromAddr)
+	}
+
 	var input string
 	if len(transaction.Input) > 2 {
 		input = transaction.Input[2:]
 	}
 
-	str := []string{transaction.ChainId, transaction.From[2:], toaddr, transaction.Nonce, transaction.Value, input}
+	str := []string{transaction.ChainId, fromAddr, toAddr, transaction.Nonce, transaction.Value, input}
 	p := strings.Join(str, "")
 	tmp := sha3.NewKeccak256()
 	_, err := tmp.Write([]byte(p))
@@ -109,6 +125,7 @@ func (thk *Thk) SignTransaction(transaction *util.Transaction, privatekey *ecdsa
 	return nil
 }
 
+//调用交易
 func (thk *Thk) CallTransaction(transaction *util.Transaction) (*dto.TxResult, error) {
 	res := new(dto.TxResult)
 	if err := thk.provider.SendRequest(res, "CallTransaction", transaction); err != nil {
@@ -121,6 +138,7 @@ func (thk *Thk) CallTransaction(transaction *util.Transaction) (*dto.TxResult, e
 	return res, nil
 }
 
+//通过hash获取交易11
 func (thk *Thk) GetTransactionByHash(chainId string, hash string) (*dto.TxResult, error) {
 	params := new(util.GetTxByHash)
 	if err := params.FormatParams(chainId, hash); err != nil {
@@ -137,6 +155,7 @@ func (thk *Thk) GetTransactionByHash(chainId string, hash string) (*dto.TxResult
 	return res, nil
 }
 
+//获取块结果11
 func (thk *Thk) GetBlockHeader(chainId string, height string) (*dto.GetBlockResult, error) {
 	params := new(util.GetBlockHeader)
 	if err := params.FormatParams(chainId, height); err != nil {
@@ -153,6 +172,7 @@ func (thk *Thk) GetBlockHeader(chainId string, height string) (*dto.GetBlockResu
 	return res, nil
 }
 
+//11
 func (thk *Thk) Ping(chainId string) (int64, error) {
 	params := new(util.PingJson)
 	if err := params.FormatParams(chainId); err != nil {
@@ -188,3 +208,132 @@ func (thk *Thk) Ping(chainId string) (int64, error) {
 //
 // 	return ret, nil
 // }
+//19.5.25 获取链信息11
+func (thk *Thk) GetChainInfo(chainIds []int) ([]dto.GetChainInfo, error) {
+	params := new(util.GetChainInfoJson)
+	if err := params.FormatParams(chainIds); err != nil {
+		return nil, err
+	}
+	res := new(dto.GetChainInfo)
+	if err := thk.provider.SendRequest(res, "GetChainInfo", params); err != nil {
+		return nil, err
+	}
+	if res.ErrMsg != "" {
+		err := errors.New(res.ErrMsg)
+		return nil, err
+	}
+
+	res_array := []dto.GetChainInfo{*res}
+	return res_array, nil
+}
+
+//11
+func (thk *Thk) GetStats(chainId int) (gts dto.GetChainStats, err error) {
+	params := new(util.GetStatsJson)
+	ers := params.FormatParams(chainId)
+	if ers != nil {
+		fmt.Println(ers)
+	}
+
+	res := new(dto.GetChainStats)
+	if err := thk.provider.SendRequest(res, "GetStats", params); err != nil {
+		return *res, err
+	}
+	res_array := dto.GetChainStats{ChainId: chainId}
+
+	return res_array, nil
+
+}
+
+//GetTransactions
+func (thk *Thk) GetTransactions(chainId, address, startHeight, endHeight string) ([]dto.GetTransactions, error) {
+	params := new(util.GetTransactionsJson)
+	if err := params.FormatParams(chainId, address, startHeight, endHeight); err != nil {
+		return nil, err
+	}
+
+	res := new(dto.GetTransactions)
+	if err := thk.provider.SendRequest(res, "GetTransactions", params); err != nil {
+		return nil, err
+	}
+
+	res_array := []dto.GetTransactions{*res}
+	return res_array, nil
+
+}
+
+//5.25 获取委员会详情11
+func (thk *Thk) GetCommittee(chainId string, epoch int) ([]string, error) {
+	params := new(util.GetCommitteeJson)
+	if err := params.FormatParams(chainId, epoch); err != nil {
+		return nil, err
+	}
+
+	res := new(dto.GetCommittee)
+	if err := thk.provider.SendRequest(res, "GetCommittee", params); err != nil {
+		return nil, err
+	}
+	if res.ErrMsg != "" {
+		err := errors.New(res.ErrMsg)
+		return nil, err
+	}
+	return res.MemberDetails, nil
+}
+
+//RpcMakeVccProof 11
+func (thk *Thk) RpcMakeVccProof(transaction *util.Transaction) (map[string]interface{}, error) {
+	res := new(dto.RpcMakeVccProofJson)
+	if err := thk.provider.SendRequest(res, "RpcMakeVccProof", transaction); err != nil {
+		return nil, err
+	}
+	if res.ErrMsg != "" {
+		err := errors.New(res.ErrMsg)
+		return nil, err
+	}
+	return res.Proof, nil
+}
+
+//MakeCCCExistenceProof  11
+func (thk *Thk) MakeCCCExistenceProof(transaction *util.Transaction) (map[string]interface{}, error) {
+	res := new(dto.MakeCCCExistenceProofJson)
+	if err := thk.provider.SendRequest(res, "MakeCCCExistenceProof", transaction); err != nil {
+		return nil, err
+	}
+	if res.ErrMsg != "" {
+		err := errors.New(res.ErrMsg)
+		return nil, err
+	}
+	return res.Proof, nil
+}
+
+//GetCCCRelativeTx
+func (thk *Thk) GetCCCRelativeTx(transaction *util.Transaction) (map[string]interface{}, error) {
+	res := new(dto.GetCCCRelativeTxJson)
+	if err := thk.provider.SendRequest(res, "GetCCCRelativeTx", transaction); err != nil {
+		return nil, err
+	}
+	if res.ErrMsg != "" {
+		err := errors.New(res.ErrMsg)
+		return nil, err
+	}
+	return res.Proof, nil
+}
+
+//CompileContract
+func (thk *Thk) CompileContract(chainId, contract string) (map[string]interface{}, error) {
+	params := new(util.CompileContractJson)
+	ers := params.FormatParams(chainId, contract)
+	if ers != nil {
+		fmt.Println(ers)
+	}
+	res := new(dto.CompileContractJson)
+	if err := thk.provider.SendRequest(res, "CompileContract", params); err != nil {
+		return nil, err
+	}
+	if res.ErrMsg != "" {
+		err := errors.New(res.ErrMsg)
+		return nil, err
+	}
+	return res.Test, nil
+
+}

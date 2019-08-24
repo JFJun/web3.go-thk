@@ -13,7 +13,7 @@ import (
 )
 
 func TestThkContract(t *testing.T) {
-	content, err := ioutil.ReadFile("../resources/dahan.json")
+	content, err := ioutil.ReadFile("../resources/order.json")
 	type TruffleContract struct {
 		Abi      string `json:"abi"`
 		Bytecode string `json:"bytecode"`
@@ -25,7 +25,7 @@ func TestThkContract(t *testing.T) {
 		t.FailNow()
 	}
 
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("http2rpc.thinkium.info:8880", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
 
 	bytecode := unmarshalResponse.Bytecode
 	contract, err := connection.Thk.NewContract(unmarshalResponse.Abi)

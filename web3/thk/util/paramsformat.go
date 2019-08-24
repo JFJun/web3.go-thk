@@ -30,17 +30,41 @@ func (param *GetBlockHeader) FormatParams(chainId string, height string) error {
 	return nil
 }
 
+func (param *GetCommitteeJson) FormatParams(chainId string, epoch int) error {
+	param.ChainId = chainId
+	param.Epoch = epoch
+	return nil
+}
+func (param *CompileContractJson) FormatParams(chainId string, contract string) error {
+	param.ChainId = chainId
+	param.Contract = contract
+	return nil
+}
+
 func (param *PingJson) FormatParams(chainid string) error {
 	param.ChainId = chainid
 	return nil
 }
 
-func (param *GetChainInfoJson) FormatParams(chainId string) error {
+func (param *GetChainInfoJson) FormatParams(chainIds []int) error {
+	param.ChainId = chainIds
+	return nil
+}
+
+func (param *GetStatsJson) FormatParams(chainId int) error {
+	param.ChainId = chainId
+	return nil
+}
+func (param *GetMultiStatsJson) FormatParams(chainId string) error {
 	param.ChainId = chainId
 	return nil
 }
 
-func (param *GetMultiStatsJson) FormatParams(chainId string) error {
+//chainId ,address ,startHeight ,endHeight string
+func (param *GetTransactionsJson) FormatParams(chainId, address, startHeight, endHeight string) error {
 	param.ChainId = chainId
+	param.Address = address
+	param.StartHeight = startHeight
+	param.EndHeight = endHeight
 	return nil
 }

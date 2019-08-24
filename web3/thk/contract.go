@@ -19,6 +19,7 @@ type Contract struct {
 	functions map[string][]string
 }
 
+//新合约
 func (thk *Thk) NewContract(abistr string) (*Contract, error) {
 
 	contract := new(Contract)
@@ -103,6 +104,7 @@ func (contract *Contract) getHexValue(inputType string, value interface{}) (stri
 
 }
 
+//
 func (contract *Contract) Send(transaction util.Transaction, functionName string, privatekey *ecdsa.PrivateKey, args ...interface{}) (string, error) {
 
 	// transaction, err := contract.prepareTransaction(transaction, functionName, args)
@@ -143,11 +145,24 @@ func (contract *Contract) Call(transaction util.Transaction, functionName string
 	return contract.super.CallTransaction(&transaction)
 
 }
+
+//解析
 func (contract *Contract) Parse(callRes *dto.TxResult, name string, args interface{}) error {
 	res, err := hexutil.Decode(callRes.Out)
-	if err = contract.abi.Unpack(&args, name, res); err != nil {
+	if err = contract.abi.Unpack(args, name, res); err != nil {
 		return err
 	} else {
 		return nil
 	}
+}
+func (contract *Contract) GetInput(functionName string, args ...interface{}) (string, error) {
+	fixedArrStrPack, err := contract.abi.Pack(functionName, args...)
+	if err != nil {
+		return "", err
+	}
+	return hexutil.Encode(fixedArrStrPack),err
+
+}
+func (contract *Contract) SendTransaction(transaction util.Transaction) (string, error) {
+	return contract.super.SendTx(&transaction)
 }

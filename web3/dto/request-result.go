@@ -32,7 +32,25 @@ type SendTxResult struct {
 	TXhash string `json:"TXhash,omitempty"`
 	ErrMsg string `json:"ErrMsg,omitempty"`
 }
+type RpcMakeVccProofJson struct {
+	Proof  map[string]interface{} `json:"proof,omitempty"`
+	ErrMsg string                 `json:"ErrMsg,omitempty"`
+}
 
+type MakeCCCExistenceProofJson struct {
+	Proof  map[string]interface{} `json:"proof,omitempty"`
+	ErrMsg string                 `json:"ErrMsg,omitempty"`
+}
+
+//GetCCCRelativeTx
+type GetCCCRelativeTxJson struct {
+	Proof  map[string]interface{} `json:"proof,omitempty"`
+	ErrMsg string                 `json:"ErrMsg,omitempty"`
+}
+type CompileContractJson struct {
+	Test   map[string]interface{} `json:"test,omitempty"`
+	ErrMsg string                 `json:"ErrMsg,omitempty"`
+}
 type TransactionResult struct {
 	ChainId int    `json:"chainId"`
 	From    string `json:"from"`
@@ -65,6 +83,49 @@ type GetBlockResult struct {
 	Txcount      int    `json:"txcount"`
 	Timestamp    int64  `json:"timestamp"`
 	ErrMsg       string `json:"ErrMsg,Omitempty"`
+}
+
+type GetChainInfo struct {
+	ChainId      int    `json:"chainId"`
+	DataNodeId   string `json:"dataNodeId"`
+	DataNodeIp   string `json:"dataNodeIp"`
+	DataNodePort int    `json:"dataNodePort"`
+	Mode         int    `json:"mode"`
+	Parent       int    `json:"parent"`
+	ErrMsg       string `json:"ErrMsg,Omitempty"`
+}
+
+/*
+"chainId": 2,
+"from": "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23",
+"to": "0x0000000000000000000000000000000000020000",
+"nonce": 0,
+"value": 0,
+"input": "0x000000022c7536e3605d9c16a7a3d7b1898e529396a65c230000000000000000000000034fa1c4e6182b6b7f3bca273390cf587b50b4731100000000000456440101",
+"hash": "0x0ea5dad47833fc6286357b6bd6c1a4e910def5f4432a1a59bde0f816c3dd18e0",
+"timestamp": 1560425588
+*/
+type GetTransactions struct {
+	ChainId   int    `json:"chainId"`
+	From      string `json:"from"`
+	To        string `json:"to"`
+	Nonce     int    `json:"nonce"`
+	Value     int    `json:"value"`
+	Input     string `json:"input"`
+	Hash      string `json:"hash"`
+	Timestamp int64  `json:"timestamp"`
+}
+
+type GetChainStats struct {
+	ChainId       int `json:"chainId"`
+	Currentheight int `json:"currentheight"`
+}
+
+type GetCommittee struct {
+	ChainId       int32    `json:"chainId"`
+	MemberDetails []string `json:"memberDetails"`
+	Epoch         int      `json:"epoch"`
+	ErrMsg        string   `json:"ErrMsg,Omitempty"`
 }
 
 type GetMultiStatsResult struct {
