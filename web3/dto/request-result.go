@@ -52,12 +52,12 @@ type CompileContractJson struct {
 	ErrMsg string                 `json:"ErrMsg,omitempty"`
 }
 type TransactionResult struct {
-	ChainId int    `json:"chainId"`
-	From    string `json:"from"`
-	To      string `json:"to"`
-	Nonce   int    `json:"nonce"`
-	Value   int    `json:"value"`
-	Input   string `json:"input"`
+	ChainId int         `json:"chainId"`
+	From    string      `json:"from"`
+	To      string      `json:"to"`
+	Nonce   int         `json:"nonce"`
+	Value   interface{} `json:"value"`
+	Input   string      `json:"input"`
 }
 
 type TxResult struct {

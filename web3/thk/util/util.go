@@ -1,5 +1,12 @@
 package util
 
+import (
+	"errors"
+	"io"
+	"strings"
+	"web3.go/common/cryp/crypto"
+)
+
 type GetAccountJson struct {
 	Address string `json:"address"`
 	ChainId string `json:"chainId"`
@@ -25,7 +32,45 @@ type Transaction struct {
 	Input        string `json:"input"`
 	ExpireHeight int    `json:"expireheight"`
 }
+func(tx Transaction) HashValue() ([]byte, error){
+	hasher := crypto.GetHash256()
+	if _, err := tx.HashSerialize(hasher); err != nil {
+		return nil, err
+	}
+	return hasher.Sum(nil), nil
+}
+// 此处与rpcTx的Hash算法一致
+func (tx Transaction) HashSerialize(w io.Writer) (int, error) {
+	var toAddr string
+	var fromAddr string
+	if has0xPrefix(tx.To) {
+		toAddr = tx.To[2:]
+		toAddr = strings.ToLower(toAddr)
+	}else{
+		return 0, errors.New("hex string without 0x prefix")
+	}
 
+	if has0xPrefix(tx.From) {
+		fromAddr = tx.From[2:]
+		fromAddr = strings.ToLower(fromAddr)
+	}else{
+		return 0, errors.New("hex string without 0x prefix")
+	}
+
+	var input string
+	if has0xPrefix(tx.Input) {
+		input = tx.Input[2:]
+		input = strings.ToLower(input)
+	}else{
+		return 0, errors.New("hex string without 0x prefix")
+	}
+	str := []string{tx.ChainId, fromAddr, toAddr, tx.Nonce, tx.Value, input}
+	p := strings.Join(str, "")
+	return w.Write([]byte(p))
+}
+func has0xPrefix(input string) bool {
+	return len(input) >= 2 && input[0] == '0' && (input[1] == 'x' || input[1] == 'X')
+}
 type GetTxByHash struct {
 	ChainId string `json:"chainId"`
 	Hash    string `json:"hash"`
