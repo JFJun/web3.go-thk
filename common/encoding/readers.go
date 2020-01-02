@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/thinkey-chain/go-thinkeychain/common/log"
+	// "github.com/thinkey-chain/go-thinkeychain/common/log"
 )
 
 type typeReaderFunc func(length int, vr ValueReader, value reflect.Value, nesting int) error
@@ -113,8 +113,8 @@ func stringToArray(buf []byte, vr ValueReader, value reflect.Value, nesting int)
 		}
 	}
 	if i != vl || i != l {
-		log.Debugf("rtl: string to array/slice length not match, "+
-			"len(string)=%d, len(array)=%d, %d elements writed", l, vl, i)
+		// log.Debugf("rtl: string to array/slice length not match, "+
+		// 	"len(string)=%d, len(array)=%d, %d elements writed", l, vl, i)
 	}
 	return nil
 }
@@ -125,7 +125,7 @@ func singleByteToArray0(length int, vr ValueReader, value reflect.Value, nesting
 		evalue := value.Index(0)
 		return valueReader1(THSingleByte, length, vr, evalue, nesting+1)
 	}
-	log.Debugf("rtl: restore nothing for an 0 length array/slice with %s(byte:%x)", THSingleByte, length)
+	// log.Debugf("rtl: restore nothing for an 0 length array/slice with %s(byte:%x)", THSingleByte, length)
 	return nil
 }
 
@@ -169,8 +169,8 @@ func toArray0(length int, vr ValueReader, value reflect.Value, nesting int) erro
 		}
 	}
 	if i != vl || i != length {
-		log.Debugf("rtl: string to array/slice length not match, "+
-			"len(string)=%d, len(array)=%d, %d elements writed", length, vl, i)
+		// log.Debugf("rtl: string to array/slice length not match, "+
+		// 	"len(string)=%d, len(array)=%d, %d elements writed", length, vl, i)
 	}
 
 	return nil

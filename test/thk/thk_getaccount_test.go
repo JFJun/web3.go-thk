@@ -7,9 +7,9 @@ import (
 )
 
 func TestThkGetBalance(t *testing.T) {
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
-	connection.DefaultAddress = "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
-	bal, err := connection.Thk.GetBalance(connection.DefaultAddress, "2")
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
+	connection.DefaultAddress = "0x6422ce49bd62dba229568eb6ad868d15c49d7fe8"
+	bal, err := connection.Thk.GetBalance(connection.DefaultAddress, "1")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -18,9 +18,9 @@ func TestThkGetBalance(t *testing.T) {
 }
 
 func TestThkGetNonce(t *testing.T) {
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
-	connection.DefaultAddress = "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
-	nonce, err := connection.Thk.GetNonce(connection.DefaultAddress, "2")
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
+	connection.DefaultAddress = "0x6422ce49bd62dba229568eb6ad868d15c49d7fe8"
+	nonce, err := connection.Thk.GetNonce(connection.DefaultAddress, "1")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()

@@ -51,20 +51,26 @@ type CompileContractJson struct {
 	Test   map[string]interface{} `json:"test,omitempty"`
 	ErrMsg string                 `json:"ErrMsg,omitempty"`
 }
+
+
 type TransactionResult struct {
 	ChainId int         `json:"chainId"`
 	From    string      `json:"from"`
 	To      string      `json:"to"`
 	Nonce   int         `json:"nonce"`
-	Value   interface{} `json:"value"`
+	Value   *big.Int `json:"value"`
 	Input   string      `json:"input"`
+	Hash      string   `json:"hash"`
+	UseLocal  bool     `json:"uselocal"`
+	Extra     string   `json:"extra"` // 目前用来存交易类型，不存在时为普通交易，否则会对应特殊操作
+	Timestamp uint64   `json:"timestamp"`
 }
 
 type TxResult struct {
 	Transaction     TransactionResult
 	Root            string `json:"root"`
 	Status          int    `json:"status"`
-	Logs            string `json:"logs"`
+	Logs            interface{} `json:"logs"`
 	TransactionHash string `json:"transactionHash"`
 	ContractAddress string `json:"contractAddress"`
 	Out             string `json:"out"`

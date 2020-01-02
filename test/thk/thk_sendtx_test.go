@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"testing"
 	"web3.go/common/cryp/crypto"
+	"web3.go/common/encoding"
 	"web3.go/common/hexutil"
-	"web3.go/encoding"
 	"web3.go/web3"
 	"web3.go/web3/providers"
 	"web3.go/web3/thk/util"
@@ -178,11 +178,11 @@ func (a *Address) SetBytes(b []byte) {
 
 func TestThkCashCheck(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000020000"
 
-	nonce, err := connection.Thk.GetNonce(from, "2")
+	nonce, err := connection.Thk.GetNonce(from, "1")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -191,10 +191,10 @@ func TestThkCashCheck(t *testing.T) {
 	from_str, err := hexutil.Decode("0x2c7536e3605d9c16a7a3d7b1898e529396a65c23")
 	to_str, err := hexutil.Decode("0x4fa1c4e6182b6b7f3bca273390cf587b50b47311")
 	vcc := &CashCheck{
-		FromChain:    2,
+		FromChain:    1,
 		FromAddress:  BytesToAddress(from_str),
 		Nonce:        uint64(nonce),
-		ToChain:      3,
+		ToChain:      2,
 		ToAddress:    BytesToAddress(to_str),
 		ExpireHeight: 279228 + 5000,
 		Amount:       big.NewInt(1),
@@ -207,7 +207,7 @@ func TestThkCashCheck(t *testing.T) {
 	fmt.Println("------------------")
 	fmt.Println(str)
 	transaction := util.Transaction{
-		ChainId: "2", FromChainId: "2", ToChainId: "3", From: from,
+		ChainId: "1", FromChainId: "1", ToChainId: "2", From: from,
 		To: to, Value: "0", Input: str, Nonce: strconv.Itoa(int(nonce)),
 	}
 
@@ -220,7 +220,7 @@ func TestThkCashCheck(t *testing.T) {
 		t.FailNow()
 	}
 	t.Log("txhash:", txhash)
-	//0x472a80cd5a8aa4664fcca5f3a4fd72c3ff25681c2511325f4613f04c128966e9
+	// 0x472a80cd5a8aa4664fcca5f3a4fd72c3ff25681c2511325f4613f04c128966e9
 }
 func TestThkSaveCashCheck(t *testing.T) {
 	var err error
@@ -228,16 +228,16 @@ func TestThkSaveCashCheck(t *testing.T) {
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000030000"
 
-	nonce, err := connection.Thk.GetNonce(from, "3")
+	nonce, err := connection.Thk.GetNonce(from, "2")
 	fmt.Println(nonce)
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 	//
-	//from_str,err:=hexutil.Decode("0x2c7536e3605d9c16a7a3d7b1898e529396a65c23")
-	//to_str,err:=hexutil.Decode("0x4fa1c4e6182b6b7f3bca273390cf587b50b47311")
-	//vcc := &CashCheck{
+	// from_str,err:=hexutil.Decode("0x2c7536e3605d9c16a7a3d7b1898e529396a65c23")
+	// to_str,err:=hexutil.Decode("0x4fa1c4e6182b6b7f3bca273390cf587b50b47311")
+	// vcc := &CashCheck{
 	//	FromChain:    2,
 	//	FromAddress:  BytesToAddress(from_str),
 	//	Nonce:        uint64(nonce),
@@ -245,14 +245,14 @@ func TestThkSaveCashCheck(t *testing.T) {
 	//	ToAddress:    BytesToAddress(to_str),
 	//	ExpireHeight: 33772,
 	//	Amount:       big.NewInt(1),
-	//}
-	//println(vcc.Nonce)
-	//intput,err:=encoding.Marshal(vcc)
-	//println(intput)
+	// }
+	// println(vcc.Nonce)
+	// intput,err:=encoding.Marshal(vcc)
+	// println(intput)
 	//
-	//str:=hexutil.Encode(intput)
+	// str:=hexutil.Encode(intput)
 	transaction := util.Transaction{
-		ChainId: "3", FromChainId: "3", ToChainId: "3", From: from,
+		ChainId: "2", FromChainId: "2", ToChainId: "2", From: from,
 		To: to, Value: "0", Input: "0x95000000022c7536e3605d9c16a7a3d7b1898e529396a65c230000000000010009000000034fa1c4e6182b6b7f3bca273390cf587b50b473110000000000045644010102a301ba1fc09cd5f9d10c23f8e2db49d4d4e529a32b5b951e3685f314eda7f6d13289dc6aa894941093a1a0df6cfaa2c89bf9deeed6a9c03667d40ca358b2adc9e091d2598a2b7e7220a000c200008080940e934080c2084080810001d0a2ea876f373a05d990e1c46041af438ff0e25e7d5d6953dcc9c43e2845026f0001019403934080c27aa2808100038187aa9f339cf1ba6ffe6986f68c639a835fac453ac37d0df6e72091b1cd1cd3d42acb443bbd30466cf2f099f5fc277f9beb032a09f8b074201404d94cb21947ade490581abc936a49b4754aaac0816195d4af0d77a6fd454210762d8da590180001019424930080c20000c0b514b73aa5d9299ebaa524822220c50a1c884bcd6e1193c279b4b2023e4fc5c181000509f47f9feafa18ad06f468d253c4d9aa5bebe0438fe01a00a830f0546d5d60b8625dc71f6529f508c2f6411029909f5207b556920cf45d64951b1781a9e8b17431f3959a8327f5d093bc5fae377a4a831f70d74bccf65eab93cfde3d2a8fab34eca078605c1b0ad6ff4323f7c23307585d3dddd504f96e7a7f722f9802d2a1b787f28d0a0b5499f8c6dc7afdcb43e1feddb8e21beb4750c81c947f0aed109090000110", Nonce: strconv.Itoa(int(nonce)),
 	}
 	privatekey, err := crypto.HexToECDSA(key)
@@ -264,14 +264,14 @@ func TestThkSaveCashCheck(t *testing.T) {
 		t.FailNow()
 	}
 	t.Log("txhash:", txhash)
-	//0x920a95dc3af9d6ed801258fc8eeb1455b7e6b35a72d4142c995a27f4f0e78c8d
+	// 0x920a95dc3af9d6ed801258fc8eeb1455b7e6b35a72d4142c995a27f4f0e78c8d
 }
 
 func TestThkGetCommittee(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("thinkey.natapp1.cc", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 
-	res, err := connection.Thk.GetCommittee("2", 100)
+	res, err := connection.Thk.GetCommittee("1", 1)
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -281,18 +281,18 @@ func TestThkGetCommittee(t *testing.T) {
 
 func TestThkSendTx(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("192.168.1.106:8093", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x6ea0fefc17c877c7a4b0f139728ed39dc134a967"
-	nonce, err := connection.Thk.GetNonce(from, "2")
+	nonce, err := connection.Thk.GetNonce(from, "1")
 	fmt.Println("nonce:", nonce)
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 	transaction := util.Transaction{
-		ChainId: "2", FromChainId: "2", ToChainId: "2", From: from,
-		To: to, Value: "2333", Input: "", Nonce: strconv.Itoa(int(nonce)),
+		ChainId: "1", FromChainId: "1", ToChainId: "1", From: from,
+		To: to, Value: "2333", Input: "", Nonce: strconv.Itoa(int(nonce)), UseLocal: false, Extra: "",
 	}
 	privatekey, err := crypto.HexToECDSA(key)
 	err = connection.Thk.SignTransaction(&transaction, privatekey)
@@ -305,15 +305,15 @@ func TestThkSendTx(t *testing.T) {
 	t.Log("txhash:", txhash)
 }
 
-//Chainid:
-//From:
-//To:
-//Nonce:   nonce,
+// Chainid:
+// From:
+// To:
+// Nonce:   nonce,
 // ExpireHeight: expireheight,
 // Amount: value.(string),
 func TestThkRpcMakeVccProof(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000020000"
 
@@ -323,22 +323,22 @@ func TestThkRpcMakeVccProof(t *testing.T) {
 		t.FailNow()
 	}
 
-	//stats, _ := connection.Thk.GetStats(2)
+	// stats, _ := connection.Thk.GetStats(2)
 	expireHeight := 279228 + 5000
 
-	//fmt.Println(stats.Currentheight)
+	// fmt.Println(stats.Currentheight)
 
 	fmt.Println(expireHeight)
 
 	transaction := util.Transaction{
 		ChainId: "2", FromChainId: "2", ToChainId: "3", From: from,
-		To: to, Nonce: strconv.Itoa(int(nonce)), Value: "2333", ExpireHeight: expireHeight,
+		To: to, Nonce: strconv.Itoa(int(nonce)), Value: "2333", ExpireHeight: int64(expireHeight),
 	}
 	input, err := connection.Thk.RpcMakeVccProof(&transaction)
 	t.Log("input:", input)
 }
 func TestCompileContract(t *testing.T) {
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 
 	contract := "pragma solidity >= 0.4.22;contract test {function multiply(uint a) public returns(uint d) {return a * 7;}}"
 	test, err := connection.Thk.CompileContract("2", contract)
@@ -351,7 +351,7 @@ func TestCompileContract(t *testing.T) {
 }
 func TestThkMakeCCCExistenceProof(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x0000000000000000000000000000000000020000"
 
@@ -361,12 +361,12 @@ func TestThkMakeCCCExistenceProof(t *testing.T) {
 		t.FailNow()
 	}
 
-	//stats, _ := connection.Thk.GetStats(3)
+	// stats, _ := connection.Thk.GetStats(3)
 	expireHeight := 279228 + 5000
 
 	transaction := util.Transaction{
-		ChainId: "3", FromChainId: "3", ToChainId: "2", From: from,
-		To: to, Nonce: strconv.Itoa(int(nonce)), Value: "2333", ExpireHeight: expireHeight,
+		ChainId: "2", FromChainId: "2", ToChainId: "2", From: from,
+		To: to, Nonce: strconv.Itoa(int(nonce)), Value: "2333", ExpireHeight: int64(expireHeight),
 	}
 	input, err := connection.Thk.MakeCCCExistenceProof(&transaction)
 	t.Log("input:", input)
@@ -374,7 +374,7 @@ func TestThkMakeCCCExistenceProof(t *testing.T) {
 
 func TestThkCallTx(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 	from := "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
 	to := "0x6ea0fefc17c877c7a4b0f139728ed39dc134a967"
 	if err != nil {
@@ -395,12 +395,34 @@ func TestThkCallTx(t *testing.T) {
 
 func TestThkGetTransactionByHash(t *testing.T) {
 	var err error
-	var connection = web3.NewWeb3(providers.NewHTTPProvider("test.thinkey.xyz", 10, false))
-	hash := "0xcb53f1ec9c02053a46de488b63b219217826fd9c4cfb531567d61003664ef653"
-	res, err := connection.Thk.GetTransactionByHash("2", hash)
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
+	hash := "0x89c6669a417c3cc2c6457da38cfe78506752d9f61ac292db47a553af53f3b7bc"
+	res, err := connection.Thk.GetTransactionByHash("1", hash)
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 	t.Log("res:", res)
 }
+
+func TestThkGetNodeSig(t *testing.T) {
+	var err error
+	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
+	connection.DefaultAddress = "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23"
+	nonce, err := connection.Thk.GetNonce(connection.DefaultAddress, "1")
+	if err != nil {
+		t.Error(err)
+		t.FailNow()
+	}
+
+	privateKey := "0x15d115381a4e445d66c59f4c2b884d78a34ac54bccc333b4508bce9cacf32539"
+	nodeId := "0x3d85aa2a649fa5fd421988cebff58d7173f7b563b8a9594e92bcf3e9f5e43037c3463121af51aacc8a8cf2d8cfcc6fa717b774fc0aceec04d7185c87e279c1f6"
+	res, err := connection.Thk.GetNodeSig(nodeId,"1", "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23", strconv.FormatInt(nonce,10),"5000",privateKey)
+
+	if err != nil {
+		t.Error(err)
+		t.FailNow()
+	}
+	t.Log("NodeSig:", res)
+}
+
