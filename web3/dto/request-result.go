@@ -67,7 +67,7 @@ type TransactionResult struct {
 }
 
 type TxResult struct {
-	Transaction     TransactionResult
+	Transaction     TransactionResult `json:"tx"`
 	Root            string `json:"root"`
 	Status          int    `json:"status"`
 	Logs            interface{} `json:"logs"`
@@ -77,7 +77,16 @@ type TxResult struct {
 	BlockHeight     int    `json:"blockHeight"`
 	ErrMsg          string `json:"ErrMsg,omitempty"`
 }
-
+// type TxResultHash struct {
+// 	Tx              TransactionResult `json:"tx"`
+// 	Root            string      `json:"root"`
+// 	Status          int         `json:"status"`
+// 	Logs            interface{}      `json:"logs"`
+// 	TransactionHash string      `json:"transactionHash"`
+// 	ContractAddress string      `json:"contractAddress"`
+// 	Out             string      `json:"out"`
+// 	BlockHeight     int         `json:"blockHeight"`
+// }
 type GetBlockResult struct {
 	Hash         string `json:"hash"`
 	Previoushash string `json:"previoushash"`

@@ -33,7 +33,7 @@ var Symbol = "GBDJ"
 var Name = "GOLDDJ"
 var Des = "金币"
 var Chain = "2"
-var Url = "test.thinkey.xyz"
+var Url = "rpctest.thinkey.xyz"
 
 type TruffleContract struct {
 	Abi      string `json:"abi"`

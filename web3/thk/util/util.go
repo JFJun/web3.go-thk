@@ -104,7 +104,7 @@ type GetChainInfoJson struct {
 }
 
 type GetStatsJson struct {
-	ChainId int `json:"chainId"`
+	ChainId string `json:"chainId"`
 }
 
 type GetTransactionsJson struct {

@@ -51,7 +51,7 @@ func (param *GetChainInfoJson) FormatParams(chainIds []int) error {
 	return nil
 }
 
-func (param *GetStatsJson) FormatParams(chainId int) error {
+func (param *GetStatsJson) FormatParams(chainId string) error {
 	param.ChainId = chainId
 	return nil
 }

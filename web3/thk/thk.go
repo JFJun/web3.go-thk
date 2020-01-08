@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"strconv"
 	"strings"
 	"web3.go/common/cryp/crypto"
 	"web3.go/common/cryp/sha3"
@@ -242,7 +243,7 @@ func (thk *Thk) GetChainInfo(chainIds []int) ([]dto.GetChainInfo, error) {
 }
 
 // 11
-func (thk *Thk) GetStats(chainId int) (gts dto.GetChainStats, err error) {
+func (thk *Thk) GetStats(chainId string) (gts dto.GetChainStats, err error) {
 	params := new(util.GetStatsJson)
 	ers := params.FormatParams(chainId)
 	if ers != nil {
@@ -250,12 +251,16 @@ func (thk *Thk) GetStats(chainId int) (gts dto.GetChainStats, err error) {
 	}
 
 	res := new(dto.GetChainStats)
-	if err := thk.provider.SendRequest(res, "GetStats", params); err != nil {
+
+
+	if err := thk.provider.SendRequest(&res, "GetStats", params); err != nil {
 		return *res, err
 	}
-	res_array := dto.GetChainStats{ChainId: chainId}
+	// res_array := dto.GetChainStats{ChainId: chainId}
 
-	return res_array, nil
+	// res.ChainId = chainId
+
+	return *res, nil
 
 }
 
@@ -295,16 +300,45 @@ func (thk *Thk) GetCommittee(chainId string, epoch int) ([]string, error) {
 }
 
 // RpcMakeVccProof 11
-func (thk *Thk) RpcMakeVccProof(transaction *util.Transaction) (map[string]interface{}, error) {
-	res := new(dto.RpcMakeVccProofJson)
-	if err := thk.provider.SendRequest(res, "RpcMakeVccProof", transaction); err != nil {
-		return nil, err
+func (thk *Thk) RpcMakeVccProof(transaction *util.Transaction) (string, error) {
+	// res := new(dto.RpcMakeVccProofJson)
+	type TransactionVCC struct {
+		ChainId     string `json:"chainId"`
+		FromChainId string `json:"fromChainId,omitempty"`
+		ToChainId   string `json:"toChainId,omitempty"`
+		From        string `json:"from"`
+		To          string `json:"to"`
+		Nonce       string `json:"nonce"`
+		Value       string `json:"value"`
+		Sig         string `json:"sig,omitempty"`
+		Pub         string `json:"pub,omitempty"`
+		Input       string `json:"input"`
+		ExpireHeight string `json:"expireheight,omitempty"`
 	}
-	if res.ErrMsg != "" {
-		err := errors.New(res.ErrMsg)
-		return nil, err
+	var TxVcc TransactionVCC
+
+	TxVcc.ChainId = transaction.ChainId
+	TxVcc.FromChainId = transaction.FromChainId
+	TxVcc.ToChainId = transaction.ToChainId
+	TxVcc.From = transaction.From
+	TxVcc.To = transaction.To
+	TxVcc.Nonce = transaction.Nonce
+	TxVcc.Value = transaction.Value
+	TxVcc.Sig = transaction.Sig
+	TxVcc.Pub = transaction.Pub
+	TxVcc.Input = transaction.Input
+	TxVcc.ExpireHeight = strconv.FormatInt(transaction.ExpireHeight,10)
+
+	res1 := make(map[string]string)
+
+	if err := thk.provider.SendRequest(&res1, "RpcMakeVccProof", &TxVcc); err != nil {
+		return "", err
 	}
-	return res.Proof, nil
+	// if res.ErrMsg != "" {
+	// 	err := errors.New(res.ErrMsg)
+	// 	return nil, err
+	// }
+	return res1["input"], nil
 }
 
 // MakeCCCExistenceProof  11
