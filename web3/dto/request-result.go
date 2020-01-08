@@ -88,13 +88,18 @@ type TxResult struct {
 // 	BlockHeight     int         `json:"blockHeight"`
 // }
 type GetBlockResult struct {
-	Hash         string `json:"hash"`
-	Previoushash string `json:"previoushash"`
-	Chainid      int    `json:"chainid"`
-	Height       int    `json:"height"`
-	Mergeroot    string `json:"mergeroot"`
-	Deltaroot    string `json:"deltaroot"`
-	Stateroot    string `json:"stateroot"`
+	Hash          string `json:"hash"`          // 此块的hsh
+	Previoushash  string `json:"previousHash"`  // 父块的hash
+	ChainId       int    `json:"chainId"`       //
+	Height        int    `json:"height"`        // 查询块的块高
+	Empty         bool   `json:"empty"'`        // 是否是空块
+	RewardAddress string `json:"rewardaddress"` // 接收地址
+	Mergeroot     string `json:"mergeRoot"`     // 合并其他链转块数据hash
+	Deltaroot     string `json:"deltaRoot"`     // 跨链转账数据hash
+	Stateroot     string `json:"stateRoot"`     // 状态hash
+	RREra         string `json:"rrera"`
+	RRCurrent     string `json:"rrcurrent"`
+	RRNext        string `json:"rrnext"`
 	Txcount      int    `json:"txcount"`
 	Timestamp    int64  `json:"timestamp"`
 	ErrMsg       string `json:"ErrMsg,Omitempty"`
