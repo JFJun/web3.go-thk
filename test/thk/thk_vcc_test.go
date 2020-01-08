@@ -34,8 +34,8 @@ func TestVccCash(t *testing.T) {
 	var connection = web3.NewWeb3(providers.NewHTTPProvider("rpctest.thinkey.xyz", 10, false))
 	from := "0x151b3a46fb5c1ecffd8feccb975acab63bf52652"
 	to := "0x0000000000000000000000000000000000020000"
-	toAddress := "0x1111111111111111111111111111111111111111"
-	value := "3000000" + "000000000000000000"
+	toAddress := "0x1111111111111111111111111111111111111112"
+	value := "3" + "000000000000000000"
 
 	stats, err := connection.Thk.GetStats("2")
 	if err != nil {
@@ -85,7 +85,7 @@ func TestVccCash(t *testing.T) {
 		t.Error(err)
 		t.FailNow()
 	}
-	t.Log("txhash:", txhash)
+	fmt.Println("txhash:", txhash)
 
 	time.Sleep(10 * time.Second)
 
@@ -94,7 +94,7 @@ func TestVccCash(t *testing.T) {
 		t.Error(err)
 		t.FailNow()
 	}
-	t.Log("res:", res)
+	fmt.Println("res:", res)
 
 
 	// 0x472a80cd5a8aa4664fcca5f3a4fd72c3ff25681c2511325f4613f04c128966e9
@@ -146,7 +146,7 @@ func TestVccCash(t *testing.T) {
 	// str:=hexutil.Encode(intput)
 	transaction = util.Transaction{
 		ChainId: "2", FromChainId: "2", ToChainId: "2", From: from,
-		To: to, Value: "0", Input: "", Nonce: strconv.Itoa(int(nonce)),
+		To: to, Value: "0", Input: input, Nonce: strconv.Itoa(int(nonce)),
 	}
 
 	err = connection.Thk.SignTransaction(&transaction, privatekey)
