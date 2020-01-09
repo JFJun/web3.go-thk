@@ -30,19 +30,19 @@ type Account struct {
 	LongStorageRoot []byte   `json:"longStorageRoot"` // 系统合约用来保存更灵活的数据结构, Trie(key: Hash, value: []byte)
 }
 type Transaction struct {
-	ChainId     string `json:"chainId"`
-	FromChainId string `json:"fromChainId,omitempty"`
-	ToChainId   string `json:"toChainId,omitempty"`
-	From        string `json:"from"`
-	To          string `json:"to"`
-	Nonce       string `json:"nonce"`
-	Value       string `json:"value"`
-	Sig         string `json:"sig,omitempty"`
-	Pub         string `json:"pub,omitempty"`
-	Input       string `json:"input"`
-	UseLocal    bool   `json:"useLocal"`
-	Extra       string `json:"extra"` // 目前用来存交易类型，不存在时为普通交易，否则会对应特殊操作
-	ExpireHeight int64 `json:"expireHeight,omitempty"`
+	ChainId      string `json:"chainId"`
+	FromChainId  string `json:"fromChainId,omitempty"`
+	ToChainId    string `json:"toChainId,omitempty"`
+	From         string `json:"from"`
+	To           string `json:"to"`
+	Nonce        string `json:"nonce"`
+	Value        string `json:"value"`
+	Sig          string `json:"sig,omitempty"`
+	Pub          string `json:"pub,omitempty"`
+	Input        string `json:"input"`
+	UseLocal     bool   `json:"useLocal"`
+	Extra        string `json:"extra"` // 目前用来存交易类型，不存在时为普通交易，否则会对应特殊操作
+	ExpireHeight int64  `json:"expireHeight,omitempty"`
 }
 
 func (tx Transaction) HashValue() ([]byte, error) {
@@ -52,6 +52,7 @@ func (tx Transaction) HashValue() ([]byte, error) {
 	}
 	return hasher.Sum(nil), nil
 }
+
 // 此处与rpcTx的Hash算法一致
 func (tx Transaction) HashSerialize(w io.Writer) (int, error) {
 	var toAddr string
@@ -77,8 +78,18 @@ func (tx Transaction) HashSerialize(w io.Writer) (int, error) {
 	} else {
 		return 0, errors.New("hex string without 0x prefix")
 	}
-	str := []string{tx.ChainId, fromAddr, toAddr, tx.Nonce, tx.Value, input}
-	p := strings.Join(str, "")
+	u := "0"
+	if tx.UseLocal {
+		u = "1"
+	}
+
+	extra := ""
+	if len(extra) > 2 {
+		extra = extra[2:]
+	}
+
+	str := []string{tx.ChainId, fromAddr, toAddr, tx.Nonce, u, tx.Value, input, extra}
+	p := strings.Join(str, "-")
 	return w.Write([]byte(p))
 }
 func has0xPrefix(input string) bool {
