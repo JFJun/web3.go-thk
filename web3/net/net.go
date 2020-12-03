@@ -1,9 +1,9 @@
 package net
 
 import (
+	"github.com/JFJun/web3.go-thk/web3/dto"
+	"github.com/JFJun/web3.go-thk/web3/providers"
 	"math/big"
-	"web3.go/web3/dto"
-	"web3.go/web3/providers"
 )
 
 type Net struct {

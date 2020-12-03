@@ -3,10 +3,10 @@ package providers
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/JFJun/web3.go-thk/web3/providers/util"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"web3.go/web3/providers/util"
 )
 
 type HTTPProvider struct {

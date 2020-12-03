@@ -2,10 +2,10 @@ package dto
 
 import (
 	"errors"
+	"github.com/JFJun/web3.go-thk/web3/complex/types"
+	"github.com/JFJun/web3.go-thk/web3/constants"
 	"strconv"
 	"strings"
-	"web3.go/web3/complex/types"
-	"web3.go/web3/constants"
 
 	"encoding/json"
 	"fmt"
@@ -52,14 +52,13 @@ type CompileContractJson struct {
 	ErrMsg string                 `json:"ErrMsg,omitempty"`
 }
 
-
 type TransactionResult struct {
-	ChainId int         `json:"chainId"`
-	From    string      `json:"from"`
-	To      string      `json:"to"`
-	Nonce   int         `json:"nonce"`
-	Value   *big.Int `json:"value"`
-	Input   string      `json:"input"`
+	ChainId   int      `json:"chainId"`
+	From      string   `json:"from"`
+	To        string   `json:"to"`
+	Nonce     int      `json:"nonce"`
+	Value     *big.Int `json:"value"`
+	Input     string   `json:"input"`
 	Hash      string   `json:"hash"`
 	UseLocal  bool     `json:"uselocal"`
 	Extra     string   `json:"extra"` // 目前用来存交易类型，不存在时为普通交易，否则会对应特殊操作
@@ -68,15 +67,16 @@ type TransactionResult struct {
 
 type TxResult struct {
 	Transaction     TransactionResult `json:"tx"`
-	Root            string `json:"root"`
-	Status          int    `json:"status"`
-	Logs            interface{} `json:"logs"`
-	TransactionHash string `json:"transactionHash"`
-	ContractAddress string `json:"contractAddress"`
-	Out             string `json:"out"`
-	BlockHeight     int    `json:"blockHeight"`
-	ErrMsg          string `json:"ErrMsg,omitempty"`
+	Root            string            `json:"root"`
+	Status          int               `json:"status"`
+	Logs            interface{}       `json:"logs"`
+	TransactionHash string            `json:"transactionHash"`
+	ContractAddress string            `json:"contractAddress"`
+	Out             string            `json:"out"`
+	BlockHeight     int               `json:"blockHeight"`
+	ErrMsg          string            `json:"ErrMsg,omitempty"`
 }
+
 // type TxResultHash struct {
 // 	Tx              TransactionResult `json:"tx"`
 // 	Root            string      `json:"root"`
@@ -100,9 +100,9 @@ type GetBlockResult struct {
 	RREra         string `json:"rrera"`
 	RRCurrent     string `json:"rrcurrent"`
 	RRNext        string `json:"rrnext"`
-	Txcount      int    `json:"txcount"`
-	Timestamp    int64  `json:"timestamp"`
-	ErrMsg       string `json:"ErrMsg,Omitempty"`
+	Txcount       int    `json:"txcount"`
+	Timestamp     int64  `json:"timestamp"`
+	ErrMsg        string `json:"ErrMsg,Omitempty"`
 }
 
 type GetChainInfo struct {

@@ -25,8 +25,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/JFJun/web3.go-thk/web3/complex/types"
 	"math/big"
-	"web3.go/web3/complex/types"
 )
 
 // TransactionParameters GO transaction to make more easy controll the parameters

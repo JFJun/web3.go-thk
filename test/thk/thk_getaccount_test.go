@@ -1,9 +1,9 @@
 package test
 
 import (
+	"github.com/JFJun/web3.go-thk/web3"
+	"github.com/JFJun/web3.go-thk/web3/providers"
 	"testing"
-	"web3.go/web3"
-	"web3.go/web3/providers"
 )
 
 func TestThkGetBalance(t *testing.T) {

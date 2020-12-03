@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"web3.go/web3/complex/types"
-	"web3.go/web3/dto"
-	"web3.go/web3/providers"
+	"github.com/JFJun/web3.go-thk/web3/complex/types"
+	"github.com/JFJun/web3.go-thk/web3/dto"
+	"github.com/JFJun/web3.go-thk/web3/providers"
 )
 
 type Utils struct {

@@ -1,8 +1,8 @@
 package crypto
 
 import (
+	"github.com/JFJun/web3.go-thk/common/cryp/sha3"
 	"hash"
-	"web3.go/common/cryp/sha3"
 )
 
 // 可以计算Hash值的接口类型

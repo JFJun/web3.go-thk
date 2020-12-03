@@ -5,6 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Alex-Chris/log/log"
+	"github.com/JFJun/web3.go-thk/common/cryp/crypto"
+	"github.com/JFJun/web3.go-thk/web3"
+	"github.com/JFJun/web3.go-thk/web3/providers"
+	"github.com/JFJun/web3.go-thk/web3/thk/util"
 	"io"
 	"io/ioutil"
 	"math/big"
@@ -15,10 +19,6 @@ import (
 	"strings"
 	"testing"
 	"time"
-	"web3.go/common/cryp/crypto"
-	"web3.go/web3"
-	"web3.go/web3/providers"
-	"web3.go/web3/thk/util"
 )
 
 type ContractJson struct {
@@ -58,7 +58,7 @@ func TestDeploy(t *testing.T) {
 	ctct, err := CompileContract("../resources/contract/ERC20.sol",
 		"../resources/contract/IERC20.sol", "../resources/contract/Pausable.sol",
 		"../resources/contract/SafeMath.sol", "../resources/contract/Ownable.sol",
-		 )
+	)
 	var ERC20Json ContractJson
 	amount := new(big.Int).SetUint64(uint64(100000))
 	decimal := uint8(8)
@@ -257,7 +257,7 @@ func GetContractJson(ctct map[string]interface{}) (ContractJson, ContractJson, e
 		contractJson.ContractName = keyname
 		arr := strings.Split(contractJson.ContractName, ":")
 		length := len(arr) - 1
-		if (arr[length] == "ERC20") {
+		if arr[length] == "ERC20" {
 			mapvalue := value.(map[string]interface{})
 			ERC20Json.ByteCode = mapvalue["code"].(string)
 			info := mapvalue["info"].(map[string]interface{})
@@ -265,7 +265,7 @@ func GetContractJson(ctct map[string]interface{}) (ContractJson, ContractJson, e
 			abibytes, _ := json.Marshal(abidef)
 			ERC20Json.ABI = string(abibytes)
 		}
-		if (arr[length] == "TokenVesting") {
+		if arr[length] == "TokenVesting" {
 			mapvalue := value.(map[string]interface{})
 			TokenVestingJson.ByteCode = mapvalue["code"].(string)
 			info := mapvalue["info"].(map[string]interface{})

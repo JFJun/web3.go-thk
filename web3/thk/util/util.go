@@ -2,10 +2,10 @@ package util
 
 import (
 	"errors"
+	"github.com/JFJun/web3.go-thk/common/cryp/crypto"
 	"io"
 	"math/big"
 	"strings"
-	"web3.go/common/cryp/crypto"
 )
 
 type GetAccountJson struct {

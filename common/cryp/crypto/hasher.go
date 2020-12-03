@@ -1,8 +1,8 @@
 package crypto
 
 import (
+	"github.com/JFJun/web3.go-thk/common/encoding"
 	"reflect"
-	"web3.go/common/encoding"
 )
 
 var (

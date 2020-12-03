@@ -3,16 +3,16 @@ package test
 import (
 	"encoding/binary"
 	"fmt"
+	"github.com/JFJun/web3.go-thk/common/cryp/crypto"
+	"github.com/JFJun/web3.go-thk/common/encoding"
+	"github.com/JFJun/web3.go-thk/common/hexutil"
+	"github.com/JFJun/web3.go-thk/web3"
+	"github.com/JFJun/web3.go-thk/web3/providers"
+	"github.com/JFJun/web3.go-thk/web3/thk/util"
 	"io"
 	"math/big"
 	"strconv"
 	"testing"
-	"web3.go/common/cryp/crypto"
-	"web3.go/common/encoding"
-	"web3.go/common/hexutil"
-	"web3.go/web3"
-	"web3.go/web3/providers"
-	"web3.go/web3/thk/util"
 )
 
 var (
@@ -417,7 +417,7 @@ func TestThkGetNodeSig(t *testing.T) {
 
 	privateKey := "0x15d115381a4e445d66c59f4c2b884d78a34ac54bccc333b4508bce9cacf32539"
 	nodeId := "0x3d85aa2a649fa5fd421988cebff58d7173f7b563b8a9594e92bcf3e9f5e43037c3463121af51aacc8a8cf2d8cfcc6fa717b774fc0aceec04d7185c87e279c1f6"
-	res, err := connection.Thk.GetNodeSig(nodeId,"1", "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23", strconv.FormatInt(nonce,10),"5000",privateKey)
+	res, err := connection.Thk.GetNodeSig(nodeId, "1", "0x2c7536e3605d9c16a7a3d7b1898e529396a65c23", strconv.FormatInt(nonce, 10), "5000", privateKey)
 
 	if err != nil {
 		t.Error(err)
@@ -425,4 +425,3 @@ func TestThkGetNodeSig(t *testing.T) {
 	}
 	t.Log("NodeSig:", res)
 }
-

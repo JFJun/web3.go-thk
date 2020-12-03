@@ -4,15 +4,15 @@ import (
 	"crypto/ecdsa"
 	"errors"
 	"fmt"
+	"github.com/JFJun/web3.go-thk/common/cryp/crypto"
+	"github.com/JFJun/web3.go-thk/common/cryp/sha3"
+	"github.com/JFJun/web3.go-thk/common/hexutil"
+	"github.com/JFJun/web3.go-thk/web3/dto"
+	"github.com/JFJun/web3.go-thk/web3/providers"
+	"github.com/JFJun/web3.go-thk/web3/thk/util"
 	"math/big"
 	"strconv"
 	"strings"
-	"web3.go/common/cryp/crypto"
-	"web3.go/common/cryp/sha3"
-	"web3.go/common/hexutil"
-	"web3.go/web3/dto"
-	"web3.go/web3/providers"
-	"web3.go/web3/thk/util"
 )
 
 type Thk struct {
@@ -252,7 +252,6 @@ func (thk *Thk) GetStats(chainId string) (gts dto.GetChainStats, err error) {
 
 	res := new(dto.GetChainStats)
 
-
 	if err := thk.provider.SendRequest(&res, "GetStats", params); err != nil {
 		return *res, err
 	}
@@ -303,16 +302,16 @@ func (thk *Thk) GetCommittee(chainId string, epoch int) ([]string, error) {
 func (thk *Thk) RpcMakeVccProof(transaction *util.Transaction) (string, error) {
 	// res := new(dto.RpcMakeVccProofJson)
 	type TransactionVCC struct {
-		ChainId     string `json:"chainId"`
-		FromChainId string `json:"fromChainId,omitempty"`
-		ToChainId   string `json:"toChainId,omitempty"`
-		From        string `json:"from"`
-		To          string `json:"to"`
-		Nonce       string `json:"nonce"`
-		Value       string `json:"value"`
-		Sig         string `json:"sig,omitempty"`
-		Pub         string `json:"pub,omitempty"`
-		Input       string `json:"input"`
+		ChainId      string `json:"chainId"`
+		FromChainId  string `json:"fromChainId,omitempty"`
+		ToChainId    string `json:"toChainId,omitempty"`
+		From         string `json:"from"`
+		To           string `json:"to"`
+		Nonce        string `json:"nonce"`
+		Value        string `json:"value"`
+		Sig          string `json:"sig,omitempty"`
+		Pub          string `json:"pub,omitempty"`
+		Input        string `json:"input"`
 		ExpireHeight string `json:"expireheight,omitempty"`
 	}
 	var TxVcc TransactionVCC
@@ -327,7 +326,7 @@ func (thk *Thk) RpcMakeVccProof(transaction *util.Transaction) (string, error) {
 	TxVcc.Sig = transaction.Sig
 	TxVcc.Pub = transaction.Pub
 	TxVcc.Input = transaction.Input
-	TxVcc.ExpireHeight = strconv.FormatInt(transaction.ExpireHeight,10)
+	TxVcc.ExpireHeight = strconv.FormatInt(transaction.ExpireHeight, 10)
 
 	res1 := make(map[string]string)
 

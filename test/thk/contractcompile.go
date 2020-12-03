@@ -3,9 +3,9 @@ package test
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/JFJun/web3.go-thk/test/compiler"
 	"io/ioutil"
 	"strings"
-	"web3.go/test/compiler"
 )
 
 type ReqBody struct {

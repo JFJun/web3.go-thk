@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/JFJun/web3.go-thk/common/hexutil"
+	"github.com/JFJun/web3.go-thk/web3/dto"
+	"github.com/JFJun/web3.go-thk/web3/thk/abi"
+	"github.com/JFJun/web3.go-thk/web3/thk/util"
 	"math/big"
 	"strings"
-	"web3.go/common/hexutil"
-	"web3.go/web3/dto"
-	"web3.go/web3/thk/abi"
-	"web3.go/web3/thk/util"
 )
 
 type Contract struct {
@@ -160,7 +160,7 @@ func (contract *Contract) GetInput(functionName string, args ...interface{}) (st
 	if err != nil {
 		return "", err
 	}
-	return hexutil.Encode(fixedArrStrPack),err
+	return hexutil.Encode(fixedArrStrPack), err
 
 }
 func (contract *Contract) SendTransaction(transaction util.Transaction) (string, error) {

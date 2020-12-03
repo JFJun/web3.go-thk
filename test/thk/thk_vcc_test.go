@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/JFJun/web3.go-thk/common/cryp/crypto"
+	"github.com/JFJun/web3.go-thk/common/encoding"
+	"github.com/JFJun/web3.go-thk/common/hexutil"
+	"github.com/JFJun/web3.go-thk/web3"
+	"github.com/JFJun/web3.go-thk/web3/providers"
+	"github.com/JFJun/web3.go-thk/web3/thk/util"
 	"math/big"
 	"strconv"
 	"testing"
-	"web3.go/common/cryp/crypto"
-	"web3.go/common/encoding"
-	"web3.go/common/hexutil"
-	"web3.go/web3"
-	"web3.go/web3/providers"
-	"web3.go/web3/thk/util"
 )
 
 var (
@@ -96,7 +96,6 @@ func TestVccCash(t *testing.T) {
 	}
 	fmt.Println("res:", res)
 
-
 	// 0x472a80cd5a8aa4664fcca5f3a4fd72c3ff25681c2511325f4613f04c128966e9
 
 	// nonce, err = connection.Thk.GetNonce(from, "1")
@@ -117,7 +116,6 @@ func TestVccCash(t *testing.T) {
 	}
 	input, err := connection.Thk.RpcMakeVccProof(&transaction)
 	t.Log("input:", input)
-
 
 	// save
 	to = "0x0000000000000000000000000000000000030000"
@@ -166,7 +164,6 @@ func TestVccCash(t *testing.T) {
 		t.FailNow()
 	}
 	t.Log("res:", res)
-
 
 }
 func TestVCCThkSaveCashCheck(t *testing.T) {

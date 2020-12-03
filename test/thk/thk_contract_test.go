@@ -2,14 +2,14 @@ package test
 
 import (
 	"encoding/json"
+	"github.com/JFJun/web3.go-thk/common/cryp/crypto"
+	"github.com/JFJun/web3.go-thk/web3"
+	"github.com/JFJun/web3.go-thk/web3/providers"
+	"github.com/JFJun/web3.go-thk/web3/thk/util"
 	"io/ioutil"
 	"strconv"
 	"testing"
 	"time"
-	"web3.go/common/cryp/crypto"
-	"web3.go/web3"
-	"web3.go/web3/providers"
-	"web3.go/web3/thk/util"
 )
 
 func TestThkContract(t *testing.T) {
